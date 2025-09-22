@@ -7,16 +7,24 @@ const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    // create an event listener for when the user scrolls
+    let ticking = false;
+
+    // create an throttled event listener for when the user scrolls
     const handleScroll = () => {
-      // check if the user has scrolled down at least 10px
-      // if so, set the state to true
-      const isScrolled = window.scrollY > 10;
-      setScrolled(isScrolled);
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          // check if the user has scrolled down at least 10px
+          // if so, set the state to true
+          const isScrolled = window.scrollY > 10;
+          setScrolled(isScrolled);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    // add the event listener to the window
-    window.addEventListener("scroll", handleScroll);
+    // add the event listener to the window with passive option
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     // cleanup the event listener when the component is unmounted
     return () => window.removeEventListener("scroll", handleScroll);

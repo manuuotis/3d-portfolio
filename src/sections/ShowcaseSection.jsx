@@ -37,6 +37,8 @@ const AppShowcase = () => {
           scrollTrigger: {
             trigger: card,
             start: "top bottom-=100",
+            once: true,
+            fastScrollEnd: true,
           },
         }
       );

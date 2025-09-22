@@ -1,18 +1,28 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useMediaQuery } from "react-responsive";
+import { Suspense, useMemo } from "react";
 
 import { Room } from "./Room";
 import HeroLights from "./HeroLights";
 import Particles from "./Particles";
-import { Suspense } from "react";
 
 const HeroExperience = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const isTablet = useMediaQuery({ query: "(max-width: 1024px)" });
 
+  // Memoize performance settings
+  const canvasSettings = useMemo(() => ({
+    camera: { position: [0, 0, 15], fov: 45 },
+    gl: {
+      powerPreference: "high-performance",
+      antialias: !isMobile, // Disable antialiasing on mobile for better performance
+    },
+    dpr: isMobile ? 1 : Math.min(window.devicePixelRatio, 2), // Limit pixel ratio
+  }), [isMobile]);
+
   return (
-    <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
+    <Canvas {...canvasSettings}>
       {/* deep blue ambient */}
       <ambientLight intensity={0.2} color="#1a1a40" />
       {/* Configure OrbitControls to disable panning and control zoom based on device type */}
@@ -27,7 +37,7 @@ const HeroExperience = () => {
 
       <Suspense fallback={null}>
         <HeroLights />
-        <Particles count={100} />
+        <Particles count={30} />
         <group
           scale={isMobile ? 0.7 : 1}
           position={[0, -3.5, 0]}

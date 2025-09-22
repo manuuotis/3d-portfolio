@@ -30,6 +30,8 @@ const TechStack = () => {
         scrollTrigger: {
           trigger: "#skills", // Trigger the animation when the user scrolls to the #skills wrapper
           start: "top center", // Start the animation when the top of the wrapper is at the center of the screen
+          once: true, // Only trigger animation once to improve performance
+          fastScrollEnd: true, // Improve performance for fast scrolling
         },
       }
     );
