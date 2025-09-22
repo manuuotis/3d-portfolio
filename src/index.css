@@ -11,15 +11,19 @@ body {
   overflow-x: hidden;
   background-color: black;
   color: white;
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Let Lenis handle smooth scrolling */
   font-family: "Mona Sans", sans-serif;
   /* GPU acceleration for smooth scrolling */
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
+  /* Mobile scroll optimization */
+  -webkit-overflow-scrolling: touch;
 }
 
 section {
   width: 100dvw;
+  /* CSS containment for better performance */
+  contain: layout style paint;
 }
 
 @theme {
@@ -278,6 +282,9 @@ section {
 
   .tech-card-content {
     @apply flex flex-col md:justify-center items-center xl:gap-5 xl:h-[50vh] overflow-hidden relative z-10 group-hover:cursor-grab;
+    /* Performance optimizations */
+    contain: layout style;
+    will-change: transform;
 
     & p {
       @apply text-lg 2xl:text-2xl pb-5 xl:pb-0 font-semibold text-white-50 text-center;
@@ -286,6 +293,8 @@ section {
 
   .tech-grid {
     @apply grid xl:grid-cols-5 md:grid-cols-3 grid-cols-1 xl:gap-16 md:gap-10 gap-5 mt-16;
+    /* Grid performance optimization */
+    contain: layout;
   }
 
   .tech-icon-wrapper {

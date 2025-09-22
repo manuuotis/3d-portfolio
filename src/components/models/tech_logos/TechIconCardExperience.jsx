@@ -1,10 +1,26 @@
 import { Environment, Float, OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
+import { useIntersectionObserver } from "../../../hooks/useIntersectionObserver";
 import * as THREE from "three";
 
 const TechIconCardExperience = ({ model }) => {
+  const { elementRef, isIntersecting } = useIntersectionObserver({
+    threshold: 0.1,
+    rootMargin: '50px'
+  });
+
   const scene = useGLTF(model.modelPath);
+
+  // Optimize canvas settings based on device
+  const canvasSettings = useMemo(() => ({
+    gl: {
+      antialias: false, // Disable for better performance
+      powerPreference: "high-performance",
+      alpha: true,
+    },
+    dpr: Math.min(window.devicePixelRatio, 1.5), // Limit pixel ratio
+  }), []);
 
   useEffect(() => {
     if (model.name === "Interactive Developer") {
@@ -19,7 +35,10 @@ const TechIconCardExperience = ({ model }) => {
   }, [scene]);
 
   return (
-    <Canvas>
+    <div ref={elementRef} style={{ width: '100%', height: '100%' }}>
+      {/* Only render Canvas when in viewport */}
+      {isIntersecting && (
+        <Canvas {...canvasSettings}>
       <ambientLight intensity={0.3} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
       <spotLight
@@ -53,8 +72,10 @@ const TechIconCardExperience = ({ model }) => {
         </group>
       </Float>
 
-      <OrbitControls enableZoom={false} />
-    </Canvas>
+          <OrbitControls enableZoom={false} enablePan={false} />
+        </Canvas>
+      )}
+    </div>
   );
 };
 
