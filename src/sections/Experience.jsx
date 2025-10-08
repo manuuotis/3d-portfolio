@@ -10,6 +10,7 @@ import GlowCard from "../components/GlowCard";
 gsap.registerPlugin(ScrollTrigger);
 
 const Experience = () => {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   const getIcon = (iconName) => {
     const icons = {
       FaCode: FaCode,
@@ -29,13 +30,13 @@ const Experience = () => {
       // and fade in
       gsap.from(card, {
         // Move the card in from the left
-        xPercent: -50,
+        xPercent: isMobile ? -20 : -50,
         // Make the card invisible at the start
         opacity: 0,
         // Set the origin of the animation to the left side of the card
         transformOrigin: "left left",
-        // Animate over 0.4 second - much faster
-        duration: 0.4,
+        // Animate over 0.4 second - much faster, instant on mobile
+        duration: isMobile ? 0.2 : 0.4,
         // Use a power2 ease-out curve for snappier feel
         ease: "power2.out",
         // Trigger the animation earlier
@@ -86,8 +87,8 @@ const Experience = () => {
         // Move the text from the left to its final position
         // (xPercent: 0 means the text is at its final position)
         xPercent: 0,
-        // Animate over 0.4 second - much faster
-        duration: 0.4,
+        // Animate over 0.4 second - much faster, instant on mobile
+        duration: isMobile ? 0.2 : 0.4,
         // Use a power2 ease-out curve
         ease: "power2.out",
         // Trigger the animation earlier
@@ -99,7 +100,7 @@ const Experience = () => {
         },
       });
     }, "<"); // position parameter - insert at the start of the animation
-  }, []);
+  }, [isMobile]);
 
   return (
     <section

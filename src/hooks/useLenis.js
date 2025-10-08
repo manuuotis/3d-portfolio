@@ -3,16 +3,18 @@ import Lenis from 'lenis';
 
 export const useLenis = () => {
   useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
     // Initialize Lenis smooth scrolling
     const lenis = new Lenis({
-      duration: 0.6, // Reduced from 1.2 - much faster scrolling
+      duration: isMobile ? 0.4 : 0.6, // Even faster on mobile
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing
       direction: 'vertical',
       gestureDirection: 'vertical',
-      smooth: true,
+      smooth: !isMobile, // Disable smooth scroll on mobile for better performance
       mouseMultiplier: 1.2,
       smoothTouch: false, // Disable on touch devices for better performance
-      touchMultiplier: 2.5,
+      touchMultiplier: 3,
       infinite: false,
     });
 

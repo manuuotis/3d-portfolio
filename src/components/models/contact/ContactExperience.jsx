@@ -4,8 +4,18 @@ import { Canvas } from "@react-three/fiber";
 import Computer from "./Computer";
 
 const ContactExperience = () => {
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   return (
-    <Canvas shadows camera={{ position: [0, 3, 7], fov: 45 }}>
+    <Canvas
+      shadows
+      camera={{ position: [0, 3, 7], fov: 45 }}
+      style={{ pointerEvents: isMobile ? 'none' : 'auto' }}
+      gl={{
+        powerPreference: isMobile ? "default" : "high-performance",
+      }}
+      dpr={isMobile ? 1 : Math.min(window.devicePixelRatio, 2)}
+    >
       <ambientLight intensity={0.5} color="#fff4e6" />
 
       <directionalLight position={[5, 5, 3]} intensity={2.5} color="#ffd9b3" />
@@ -17,11 +27,13 @@ const ContactExperience = () => {
         color="#ffd9b3"
       />
 
-      <OrbitControls
-        enableZoom={false}
-        minPolarAngle={Math.PI / 5}
-        maxPolarAngle={Math.PI / 2}
-      />
+      {!isMobile && (
+        <OrbitControls
+          enableZoom={false}
+          minPolarAngle={Math.PI / 5}
+          maxPolarAngle={Math.PI / 2}
+        />
+      )}
 
       <group scale={[1, 1, 1]}>
         <mesh

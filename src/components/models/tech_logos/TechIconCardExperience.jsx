@@ -11,16 +11,17 @@ const TechIconCardExperience = ({ model }) => {
   });
 
   const scene = useGLTF(model.modelPath);
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   // Optimize canvas settings based on device
   const canvasSettings = useMemo(() => ({
     gl: {
       antialias: false, // Disable for better performance
-      powerPreference: "high-performance",
+      powerPreference: isMobile ? "default" : "high-performance",
       alpha: true,
     },
-    dpr: Math.min(window.devicePixelRatio, 1.5), // Limit pixel ratio
-  }), []);
+    dpr: isMobile ? 1 : Math.min(window.devicePixelRatio, 1.5), // Lower on mobile
+  }), [isMobile]);
 
   useEffect(() => {
     if (model.name === "Interactive Developer") {
@@ -35,10 +36,10 @@ const TechIconCardExperience = ({ model }) => {
   }, [scene]);
 
   return (
-    <div ref={elementRef} style={{ width: '100%', height: '100%' }}>
+    <div ref={elementRef} style={{ width: '100%', height: '100%', pointerEvents: isMobile ? 'none' : 'auto' }}>
       {/* Only render Canvas when in viewport */}
       {isIntersecting && (
-        <Canvas {...canvasSettings}>
+        <Canvas {...canvasSettings} style={{ pointerEvents: isMobile ? 'none' : 'auto' }}>
       <ambientLight intensity={0.3} />
       <directionalLight position={[5, 5, 5]} intensity={1} />
       <spotLight
@@ -66,13 +67,14 @@ const TechIconCardExperience = ({ model }) => {
         THREE.Group object contains all the objects (meshes, lights, etc)
         that make up the 3D model.
       */}
-      <Float speed={5.5} rotationIntensity={0.5} floatIntensity={0.9}>
+      <Float speed={isMobile ? 3 : 5.5} rotationIntensity={isMobile ? 0.3 : 0.5} floatIntensity={isMobile ? 0.5 : 0.9}>
         <group scale={model.scale} rotation={model.rotation}>
           <primitive object={scene.scene} />
         </group>
       </Float>
 
-          <OrbitControls enableZoom={false} enablePan={false} />
+          {/* Disable OrbitControls on mobile to prevent blocking scroll */}
+          {!isMobile && <OrbitControls enableZoom={false} enablePan={false} />}
         </Canvas>
       )}
     </div>
