@@ -15,24 +15,24 @@ const AppShowcase = () => {
     gsap.fromTo(
       sectionRef.current,
       { opacity: 0 },
-      { opacity: 1, duration: 1.5 }
+      { opacity: 1, duration: 0.3 }
     );
 
     // Animation for featured projects
     gsap.fromTo(
       featuredProjectsRef.current?.children || [],
       {
-        y: 50,
+        y: 20,
         opacity: 0,
       },
       {
         y: 0,
         opacity: 1,
-        duration: 1,
-        stagger: 0.2,
+        duration: 0.4,
+        stagger: 0.08,
         scrollTrigger: {
           trigger: featuredProjectsRef.current,
-          start: "top bottom-=100",
+          start: "top bottom-=200",
           once: true,
           fastScrollEnd: true,
         },
@@ -43,17 +43,17 @@ const AppShowcase = () => {
     gsap.fromTo(
       additionalProjectsRef.current?.children || [],
       {
-        y: 30,
+        y: 15,
         opacity: 0,
       },
       {
         y: 0,
         opacity: 1,
-        duration: 0.8,
-        stagger: 0.1,
+        duration: 0.3,
+        stagger: 0.05,
         scrollTrigger: {
           trigger: additionalProjectsRef.current,
-          start: "top bottom-=50",
+          start: "top bottom-=150",
           once: true,
           fastScrollEnd: true,
         },

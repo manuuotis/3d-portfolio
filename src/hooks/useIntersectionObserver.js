@@ -20,8 +20,8 @@ export const useIntersectionObserver = (options = {}) => {
         }
       },
       {
-        threshold: 0.1, // Trigger when 10% visible
-        rootMargin: '-10% 0px -10% 0px', // Start animation slightly before entering viewport
+        threshold: 0.05, // Reduced from 0.1 - triggers earlier
+        rootMargin: '100px 0px 100px 0px', // Animations start earlier - before viewport
         ...options
       }
     );

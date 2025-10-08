@@ -5,14 +5,14 @@ export const useLenis = () => {
   useEffect(() => {
     // Initialize Lenis smooth scrolling
     const lenis = new Lenis({
-      duration: 1.2, // Scroll duration
+      duration: 0.6, // Reduced from 1.2 - much faster scrolling
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Custom easing
       direction: 'vertical',
       gestureDirection: 'vertical',
       smooth: true,
-      mouseMultiplier: 1,
+      mouseMultiplier: 1.2,
       smoothTouch: false, // Disable on touch devices for better performance
-      touchMultiplier: 2,
+      touchMultiplier: 2.5,
       infinite: false,
     });
 

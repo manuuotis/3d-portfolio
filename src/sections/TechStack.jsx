@@ -9,8 +9,8 @@ import { useIntersectionAnimation } from "../hooks/useIntersectionObserver";
 
 const TechStack = () => {
   const { elementRef, shouldAnimate } = useIntersectionAnimation({
-    threshold: 0.2,
-    rootMargin: '0px 0px -100px 0px'
+    threshold: 0.05,
+    rootMargin: '150px 0px 150px 0px'
   });
 
   // Animate the tech cards when they come into view
@@ -19,15 +19,15 @@ const TechStack = () => {
       gsap.fromTo(
         ".tech-card",
         {
-          y: 50,
+          y: 20,
           opacity: 0,
         },
         {
           y: 0,
           opacity: 1,
-          duration: 0.8,
+          duration: 0.3,
           ease: "power2.out",
-          stagger: 0.1, // Reduced stagger for smoother animation
+          stagger: 0.04, // Faster stagger
         }
       );
     }
